@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Fatura Scraper</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1>🚀 Fatura Scraper</h1>
+            </div>
+            <div class="navbar-menu">
+                <span class="user-name">👤 {{ username }}</span>
+                <a href="{{ url_for('logout') }}" class="btn btn-logout">Çıkış</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Alert Box -->
+            <div id="alertBox" class="alert" style="display: none;"></div>
+
+            <!-- Scraping Form Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>🔍 Veri Kazıma İşlemi</h2>
+                </div>
+                <div class="card-body">
+                    <form id="scrapeForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="base_url">Base URL</label>
+                                <input 
+                                    type="text" 
+                                    id="base_url" 
+                                    name="base_url" 
+                                    value="http://fatura.karansu.com/pay?="
+                                    required
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="start_id">Başlangıç ID</label>
+                                <input 
+                                    type="number" 
+                                    id="start_id" 
+                                    name="start_id" 
+                                    value="1"
+                                    min="1"
+                                    required
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="count">Kayıt Sayısı</label>
+                                <input 
+                                    type="number" 
+                                    id="count" 
+                                    name="count" 
+                                    value="100"
+                                    min="1"
+                                    max="10000"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="startBtn">
+                                Kazımayı Başlat
+                            </button>
+                            <button type="button" class="btn btn-success" id="downloadBtn" style="display: none;">
+                                📥 Excel İndir
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Progress Section -->
+                    <div id="progressSection" class="progress-section" style="display: none;">
+                        <div class="progress-info">
+                            <span id="progressText">Hazırlanıyor...</span>
+                            <span id="progressPercent">0%</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="progressBar">
+                                <span class="progress-bar-text">0%</span>
+                            </div>
+                        </div>
+
+                        <!-- Statistics -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value" id="statTotal">0</div>
+                                <div class="stat-label">Toplam</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="statProcessed">0</div>
+                                <div class="stat-label">İşlenen</div>
+                            </div>
+                            <div class="stat-card stat-success">
+                                <div class="stat-value" id="statSuccess">0</div>
+                                <div class="stat-label">Başarılı</div>
+                            </div>
+                            <div class="stat-card stat-danger">
+                                <div class="stat-value" id="statFailed">0</div>
+                                <div class="stat-label">Başarısız</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Table Card -->
+            <div class="card" id="resultsCard" style="display: none;">
+                <div class="card-header">
+                    <h2>📊 Kazıma Sonuçları</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table" id="resultsTable">
+                            <thead>
+                                <tr id="tableHeader">
+                                    <!-- Dynamic columns -->
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <!-- Dynamic rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 memoaltinkaynak - Tüm hakları saklıdır</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

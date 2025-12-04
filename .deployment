@@ -1,0 +1,14 @@
+# Azure Web App yapılandırması
+{
+  "version": "1.0.0",
+  "build": {
+    "appArtifact": ".",
+    "preBuildCommand": "",
+    "postBuildCommand": ""
+  },
+  "deploy": {
+    "runtime": "python",
+    "version": "3.11",
+    "startupCommand": "gunicorn --bind=0.0.0.0 --timeout 600 run_app:app"
+  }
+}
